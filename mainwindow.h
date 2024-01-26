@@ -29,6 +29,10 @@ public slots:
 private slots:
     void on_b_gray_clicked();
 
+protected:
+
+    void resizeEvent(QResizeEvent *event) override;
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* sence;
@@ -42,5 +46,6 @@ private:
     void createConnect();
 
     void flashDispaly();
+
 };
 #endif // MAINWINDOW_H

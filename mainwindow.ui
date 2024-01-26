@@ -21,7 +21,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QGraphicsView" name="gView">
+       <widget class="G_View" name="gView">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -31,8 +31,8 @@
         <property name="mouseTracking">
          <bool>true</bool>
         </property>
-        <property name="dragMode">
-         <enum>QGraphicsView::ScrollHandDrag</enum>
+        <property name="transformationAnchor">
+         <enum>QGraphicsView::AnchorUnderMouse</enum>
         </property>
         <property name="viewportUpdateMode">
          <enum>QGraphicsView::FullViewportUpdate</enum>
@@ -155,6 +155,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>G_View</class>
+   <extends>QGraphicsView</extends>
+   <header>g_view.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -21,6 +21,12 @@ void MainWindow::createConnect()
     connect(ui->combine,SIGNAL(toggled(bool)),this,SLOT(combineCheck(bool)));
 }
 
+void MainWindow::resizeEvent(QResizeEvent* e)
+{
+    if(ui->gView)
+        ui->gView->fillSize();
+}
+
 
 MainWindow::~MainWindow()
 {
@@ -74,7 +80,7 @@ void MainWindow::openFile()
         this,
         "选择文件",
         lastPath,
-        "images(*jpg* *bmp *png);;video files()");
+        "images(*jpg* *bmp *png)");
 
     if(!path.isEmpty())
     {
