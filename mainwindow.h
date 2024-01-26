@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QGraphicsScene>
+
+#include <iostream>
+
+#include "image.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,8 +22,25 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+public slots:
+    void openFile();
+    void combineCheck(bool checked);
+
+private slots:
+    void on_b_gray_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene* sence;
+
+    Image img;
+    bool imgOpen;
+    QString lastPath;
+
+    QImage::Format getType(const int type);
+
+    void createConnect();
+
+    void flashDispaly();
 };
 #endif // MAINWINDOW_H
