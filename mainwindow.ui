@@ -121,6 +121,13 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="QPushButton" name="b_sharpen">
+          <property name="text">
+           <string>锐化</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -147,6 +154,7 @@
     </property>
     <addaction name="openfile"/>
     <addaction name="combine"/>
+    <addaction name="imgreset"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -165,6 +173,11 @@
    </property>
    <property name="text">
     <string>组合操作</string>
+   </property>
+  </action>
+  <action name="imgreset">
+   <property name="text">
+    <string>重置</string>
    </property>
   </action>
  </widget>

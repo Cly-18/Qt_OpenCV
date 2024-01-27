@@ -18,10 +18,13 @@ public:
     void openImg(char* path);
     const cv::Mat* getImg();
     const cv::Mat* getOut();
+    void reset();
 
     void gray();
 
     void colorReduce(int div=4);
+
+    void sharpen();
 
 
 };

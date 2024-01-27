@@ -25,11 +25,14 @@ public:
 public slots:
     void openFile();
     void combineCheck(bool checked);
+    void imgreset();
 
 private slots:
     void on_b_gray_clicked();
 
     void on_b_colorReduce_clicked();
+
+    void on_b_sharpen_clicked();
 
 protected:
 

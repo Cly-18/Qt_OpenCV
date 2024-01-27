@@ -19,6 +19,8 @@ void MainWindow::createConnect()
     connect(ui->openfile,SIGNAL(triggered()),this,SLOT(openFile()));
     //设置Tag
     connect(ui->combine,SIGNAL(toggled(bool)),this,SLOT(combineCheck(bool)));
+    //reset
+    connect(ui->imgreset,SIGNAL(triggered()),this,SLOT(imgreset()));
 }
 
 void MainWindow::resizeEvent(QResizeEvent* e)
@@ -64,6 +66,7 @@ void MainWindow::flashDispaly()
             cvimg->rows,
             cvimg->step,
             getType(cvimg->type()));
+        sence->clear();
         sence->setSceneRect(qimg.rect());
         sence->addPixmap(QPixmap::fromImage(qimg));
         ui->gView->setScene(sence);
@@ -90,7 +93,6 @@ void MainWindow::openFile()
         lastPath=path;
         img.openImg(path.toLocal8Bit().data());
         imgOpen=true;
-        sence->clear();
         ui->gView->resetTransform();
         flashDispaly();
     }
@@ -101,6 +103,13 @@ void MainWindow::combineCheck(bool checked)
 {
     img.setTag(checked);
 }
+//重置输出
+void MainWindow::imgreset()
+{
+    img.reset();
+    flashDispaly();
+}
+
 //灰度按钮事件
 void MainWindow::on_b_gray_clicked()
 {
@@ -111,6 +120,13 @@ void MainWindow::on_b_gray_clicked()
 void MainWindow::on_b_colorReduce_clicked()
 {
     img.colorReduce(ui->in_colorReduce->value());
+    flashDispaly();
+}
+
+
+void MainWindow::on_b_sharpen_clicked()
+{
+    img.sharpen();
     flashDispaly();
 }
 
