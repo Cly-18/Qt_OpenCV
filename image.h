@@ -21,6 +21,8 @@ public:
 
     void gray();
 
+    void colorReduce(int div=4);
+
 
 };
 

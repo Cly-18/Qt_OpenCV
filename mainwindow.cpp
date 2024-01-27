@@ -64,6 +64,7 @@ void MainWindow::flashDispaly()
             cvimg->rows,
             cvimg->step,
             getType(cvimg->type()));
+        sence->setSceneRect(qimg.rect());
         sence->addPixmap(QPixmap::fromImage(qimg));
         ui->gView->setScene(sence);
         ui->gView->show();
@@ -71,6 +72,8 @@ void MainWindow::flashDispaly()
 
     ui->b_gray->setEnabled(imgOpen);
     ui->imgSlider->setEnabled(imgOpen);
+    ui->in_colorReduce->setEnabled(imgOpen);
+    ui->b_colorReduce->setEnabled(imgOpen);
 
 }
 //打开文件
@@ -87,8 +90,11 @@ void MainWindow::openFile()
         lastPath=path;
         img.openImg(path.toLocal8Bit().data());
         imgOpen=true;
+        sence->clear();
+        ui->gView->resetTransform();
         flashDispaly();
     }
+
 }
 //设置tag
 void MainWindow::combineCheck(bool checked)
@@ -101,6 +107,10 @@ void MainWindow::on_b_gray_clicked()
     img.gray();
     flashDispaly();
 }
-
-
+//减色按钮事件
+void MainWindow::on_b_colorReduce_clicked()
+{
+    img.colorReduce(ui->in_colorReduce->value());
+    flashDispaly();
+}
 

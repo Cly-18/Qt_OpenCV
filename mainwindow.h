@@ -29,6 +29,8 @@ public slots:
 private slots:
     void on_b_gray_clicked();
 
+    void on_b_colorReduce_clicked();
+
 protected:
 
     void resizeEvent(QResizeEvent *event) override;

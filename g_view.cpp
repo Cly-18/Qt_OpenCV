@@ -52,9 +52,8 @@ void G_View::mouseDoubleClickEvent(QMouseEvent *event)
         double h=static_cast<double>(height())/s->height();
         if(scaleNum<=w&&scaleNum<=h)
         {
-            scale(1/scaleNum,1/scaleNum);
+            resetTransform();
             scaleNum=1.0;
-
             barShow(true);
         }
         else
