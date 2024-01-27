@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     lastPath="D:/Other/img";
     sence=new QGraphicsScene;
     createConnect();
+    setToolEnable(false);
     flashDispaly();
 }
 //信号绑定
@@ -21,6 +22,9 @@ void MainWindow::createConnect()
     connect(ui->combine,SIGNAL(toggled(bool)),this,SLOT(combineCheck(bool)));
     //reset
     connect(ui->imgreset,SIGNAL(triggered()),this,SLOT(imgreset()));
+    //wave
+    connect(ui->h_x,SIGNAL(valueChanged(int)),this,SLOT(imgwave()));
+    connect(ui->h_y,SIGNAL(valueChanged(int)),this,SLOT(imgwave()));
 }
 
 void MainWindow::resizeEvent(QResizeEvent* e)
@@ -53,6 +57,16 @@ QImage::Format MainWindow::getType(const int type)
     }
 }
 
+void MainWindow::setToolEnable(bool t)
+{
+    ui->b_gray->setEnabled(t);
+    ui->imgSlider->setEnabled(t);
+    ui->in_colorReduce->setEnabled(t);
+    ui->b_colorReduce->setEnabled(t);
+    ui->b_sharpen->setEnabled(t);
+    ui->h_x->setEnabled(t);
+    ui->h_y->setEnabled(t);
+}
 
 //刷新控件状态  显示图像
 void MainWindow::flashDispaly()
@@ -72,12 +86,6 @@ void MainWindow::flashDispaly()
         ui->gView->setScene(sence);
         ui->gView->show();
     }
-
-    ui->b_gray->setEnabled(imgOpen);
-    ui->imgSlider->setEnabled(imgOpen);
-    ui->in_colorReduce->setEnabled(imgOpen);
-    ui->b_colorReduce->setEnabled(imgOpen);
-
 }
 //打开文件
 void MainWindow::openFile()
@@ -96,7 +104,7 @@ void MainWindow::openFile()
         ui->gView->resetTransform();
         flashDispaly();
     }
-
+    setToolEnable(true);
 }
 //设置tag
 void MainWindow::combineCheck(bool checked)
@@ -123,10 +131,23 @@ void MainWindow::on_b_colorReduce_clicked()
     flashDispaly();
 }
 
-
+//锐化
 void MainWindow::on_b_sharpen_clicked()
 {
-    img.sharpen();
+    cv::Mat kernel(3,3,CV_32F,cv::Scalar(0));
+    kernel.at<float>(1,1)=5;
+    kernel.at<float>(0,1)=-1;
+    kernel.at<float>(1,0)=-1;
+    kernel.at<float>(1,2)=-1;
+    kernel.at<float>(2,1)=-1;
+
+    img.imgfilter(kernel);
     flashDispaly();
 }
-
+void MainWindow::imgwave()
+{
+    if(!ui->h_x->value())
+        return;
+    img.wave(ui->h_x->value()/10.0,ui->h_y->value()/10.0);
+    flashDispaly();
+}

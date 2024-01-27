@@ -26,6 +26,7 @@ public slots:
     void openFile();
     void combineCheck(bool checked);
     void imgreset();
+    void imgwave();
 
 private slots:
     void on_b_gray_clicked();
@@ -47,6 +48,7 @@ private:
     QString lastPath;
 
     QImage::Format getType(const int type);
+    void setToolEnable(bool);
 
     void createConnect();
 

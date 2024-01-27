@@ -3,6 +3,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <math.h>
 
 class Image
 {
@@ -24,9 +25,9 @@ public:
 
     void colorReduce(int div=4);
 
-    void sharpen();
+    void imgfilter(cv::Mat);
 
-
+    void wave(float,float);
 };
 
 #endif // IMAGE_H

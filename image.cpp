@@ -79,27 +79,30 @@ void Image::colorReduce(int div)
     }
 }
 
-void Image::sharpen()
+void Image::imgfilter(cv::Mat kernel)
 {
+    if(kernel.empty())
+        return;
     cv::Mat target=getTarget();
     cv::Mat result;
-    result.create(target.size(),target.type());
-
-    int nchannels= target.channels();
-    // 处理所有行（除了第一行和最后一行）
-    for (int j= 1; j<target.rows-1; j++) {
-        const uchar* previous= target.ptr<const uchar>(j-1);
-        const uchar* current= target.ptr<const uchar>(j);
-        const uchar* next= target.ptr<const uchar>(j+1);
-        uchar* output= result.ptr<uchar>(j);
-        for (int i=nchannels; i<(target.cols-1)*nchannels; i++)
-        {
-            *output++= cv::saturate_cast<uchar>(
-                5*current[i]-current[i-nchannels]-
-                current[i+nchannels]-previous[i]-next[i]);
-        }
-    }
-
+    cv::filter2D(target,result,target.depth(),kernel);
     result.copyTo(out);
+
 }
 
+void Image::wave(float x,float y)
+{
+    cv::Mat target=getTarget();
+    cv::Mat px(target.size(),CV_32F);
+    cv::Mat py(target.size(),CV_32F);
+
+    for(int i=0;i<target.rows;i++)
+    {
+        for(int j=0;j<target.cols;j++)
+        {
+            px.at<float>(i,j)=j;
+            py.at<float>(i,j)=i+x*sin(j/y);
+        }
+    }
+    cv::remap(target,out,px,py,cv::INTER_LINEAR);
+}
