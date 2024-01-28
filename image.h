@@ -28,6 +28,8 @@ public:
     void imgfilter(cv::Mat);
 
     void wave(float,float);
+
+    void thresh(cv::Vec3i,int);
 };
 
 #endif // IMAGE_H

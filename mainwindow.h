@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QGraphicsScene>
+#include <QColorDialog>
 
 #include <iostream>
 
@@ -34,6 +35,8 @@ private slots:
     void on_b_colorReduce_clicked();
 
     void on_b_sharpen_clicked();
+
+    void on_b_thresh_clicked();
 
 protected:
 

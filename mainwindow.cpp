@@ -66,6 +66,8 @@ void MainWindow::setToolEnable(bool t)
     ui->b_sharpen->setEnabled(t);
     ui->h_x->setEnabled(t);
     ui->h_y->setEnabled(t);
+    ui->in_thresh->setEnabled(t);
+    ui->b_thresh->setEnabled(t);
 }
 
 //刷新控件状态  显示图像
@@ -144,6 +146,7 @@ void MainWindow::on_b_sharpen_clicked()
     img.imgfilter(kernel);
     flashDispaly();
 }
+//扭曲
 void MainWindow::imgwave()
 {
     if(!ui->h_x->value())
@@ -151,3 +154,16 @@ void MainWindow::imgwave()
     img.wave(ui->h_x->value()/10.0,ui->h_y->value()/10.0);
     flashDispaly();
 }
+
+//阈值化
+void MainWindow::on_b_thresh_clicked()
+{
+    QColor color= QColorDialog::getColor("选择颜色");
+    if(!color.isValid())
+        return;
+    int r,g,b;
+    color.getRgb(&r,&g,&b);
+    img.thresh({b,g,r},ui->in_thresh->value());
+    flashDispaly();
+}
+

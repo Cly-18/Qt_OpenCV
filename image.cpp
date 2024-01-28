@@ -106,3 +106,17 @@ void Image::wave(float x,float y)
     }
     cv::remap(target,out,px,py,cv::INTER_LINEAR);
 }
+
+
+void Image::thresh(cv::Vec3i color,int distance)
+{
+    if(distance<0)
+        distance=0;
+    else if(distance>255)
+        distance=255;
+    cv::absdiff(getTarget(),cv::Scalar(color),out);
+    std::vector<cv::Mat> outs;
+    cv::split(out,outs);
+    out=outs[0]+outs[1]+outs[2];
+    cv::threshold(out,out,distance,255,cv::THRESH_BINARY);
+}
