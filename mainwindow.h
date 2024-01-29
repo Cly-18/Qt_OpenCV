@@ -38,6 +38,10 @@ private slots:
 
     void on_b_thresh_clicked();
 
+    void on_b_fill_clicked();
+
+    void setPoint(int x,int y);
+
 protected:
 
     void resizeEvent(QResizeEvent *event) override;

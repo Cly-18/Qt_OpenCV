@@ -25,6 +25,8 @@ void MainWindow::createConnect()
     //wave
     connect(ui->h_x,SIGNAL(valueChanged(int)),this,SLOT(imgwave()));
     connect(ui->h_y,SIGNAL(valueChanged(int)),this,SLOT(imgwave()));
+    //point
+    connect(ui->gView,SIGNAL(setPoint(int,int)),this,SLOT(setPoint(int,int)));
 }
 
 void MainWindow::resizeEvent(QResizeEvent* e)
@@ -164,6 +166,27 @@ void MainWindow::on_b_thresh_clicked()
     int r,g,b;
     color.getRgb(&r,&g,&b);
     img.thresh({b,g,r},ui->in_thresh->value());
+    flashDispaly();
+}
+
+void MainWindow::setPoint(int x,int y)
+{
+    QString str("位置:(%1,%2)");
+    ui->l_point->setText(str.arg(x,0).arg(y,0));
+}
+
+//区域提取
+void MainWindow::on_b_fill_clicked()
+{
+    QColor color= QColorDialog::getColor("选择填充颜色");
+    if(!color.isValid())
+        return;
+    int r,g,b;
+    color.getRgb(&r,&g,&b);
+    int x,y;
+    x=ui->gView->getClick().x();
+    y=ui->gView->getClick().y();
+    img.fill({x,y},{b,g,r});
     flashDispaly();
 }
 

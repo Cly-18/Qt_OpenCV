@@ -3,6 +3,7 @@
 G_View::G_View(QWidget* parent)
 {
     scaleNum=1.0;
+    click={0,0};
 }
 
 void G_View::fillSize()
@@ -39,6 +40,35 @@ void G_View::barShow(bool t)
         this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
+}
+
+const QPoint G_View::getClick() const
+{
+    return click;
+}
+
+
+void G_View::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button()==Qt::LeftButton
+        && this->scene())
+    {
+        QPoint temp=mapToScene(event->pos()).toPoint();
+        double x=temp.x();
+        double y=temp.y();
+        if(!x)
+            x=x/scaleNum;
+        if(!y)
+            y=y/scaleNum;
+
+        if(x>=0&&y>=0
+            && x<=scene()->width()&&y<=scene()->height())
+        {
+            emit setPoint(x,y);
+            click=temp;
+        }
+    }
+    QGraphicsView::mousePressEvent(event);
 }
 
 

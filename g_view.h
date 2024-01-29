@@ -7,12 +7,17 @@
 #include <QWheelEvent>
 #include <iostream>
 
+
 class G_View : public QGraphicsView
 {
     Q_OBJECT
 public:
     G_View(QWidget*parent = nullptr);
     void fillSize();
+    const QPoint getClick() const;
+
+Q_SIGNALS:
+    void setPoint(int x,int y);
 
 protected:
 
@@ -20,9 +25,10 @@ protected:
 
     void wheelEvent(QWheelEvent *event) override;
 
+    void mousePressEvent(QMouseEvent *event) override;
 private:
     double scaleNum;
-
+    QPoint click;
     void barShow(bool);
 };
 

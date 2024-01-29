@@ -120,3 +120,18 @@ void Image::thresh(cv::Vec3i color,int distance)
     out=outs[0]+outs[1]+outs[2];
     cv::threshold(out,out,distance,255,cv::THRESH_BINARY);
 }
+
+
+void Image::fill(cv::Point p,cv::Vec3i color)
+{
+    cv::Mat temp=getTarget().clone();
+    cv::floodFill(
+        temp,
+        p,
+        cv::Scalar(color),
+        (cv::Rect*)0,
+        cv::Scalar(35,35,35),
+        cv::Scalar(35,35,35),
+        cv::FLOODFILL_FIXED_RANGE);
+    temp.copyTo(out);
+}

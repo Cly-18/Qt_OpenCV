@@ -30,6 +30,8 @@ public:
     void wave(float,float);
 
     void thresh(cv::Vec3i,int);
+
+    void fill(cv::Point,cv::Vec3i);
 };
 
 #endif // IMAGE_H
