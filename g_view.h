@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include <QGraphicsRectItem>
 #include <iostream>
 
 
@@ -13,8 +14,11 @@ class G_View : public QGraphicsView
     Q_OBJECT
 public:
     G_View(QWidget*parent = nullptr);
+    ~G_View();
     void fillSize();
-    const QPoint getClick() const;
+    const QPoint getBegin() const;
+    const QRect getRect() const;
+    void setDrawRect(bool newDrawRect);
 
 Q_SIGNALS:
     void setPoint(int x,int y);
@@ -26,9 +30,17 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
 
     void mousePressEvent(QMouseEvent *event) override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
+
+    void mouseReleaseEvent(QMouseEvent *event) override;
 private:
     double scaleNum;
-    QPoint click;
+    QPoint begin;
+    QPoint end;
+    bool move;
+    bool drawRect;
+    QGraphicsRectItem* rect;
     void barShow(bool);
 };
 

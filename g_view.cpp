@@ -3,7 +3,15 @@
 G_View::G_View(QWidget* parent)
 {
     scaleNum=1.0;
-    click={0,0};
+    begin={0,0};
+    move=false;
+    rect=nullptr;
+    drawRect=false;
+
+}
+G_View::~G_View()
+{
+    delete rect;
 }
 
 void G_View::fillSize()
@@ -42,9 +50,23 @@ void G_View::barShow(bool t)
     }
 }
 
-const QPoint G_View::getClick() const
+const QPoint G_View::getBegin() const
 {
-    return click;
+    return begin;
+}
+const QRect G_View::getRect() const
+{
+    return QRect(begin,end);
+}
+void G_View::setDrawRect(bool newDrawRect)
+{
+    drawRect = newDrawRect;
+    if(!newDrawRect)
+    {
+        scene()->removeItem(rect);
+        delete rect;
+        rect=nullptr;
+    }
 }
 
 
@@ -65,10 +87,61 @@ void G_View::mousePressEvent(QMouseEvent *event)
             && x<=scene()->width()&&y<=scene()->height())
         {
             emit setPoint(x,y);
-            click=temp;
+            begin.setX(x);
+            begin.setY(y);
+            move=true;
         }
     }
     QGraphicsView::mousePressEvent(event);
+}
+
+void G_View::mouseMoveEvent(QMouseEvent *event)
+{
+    if(move&& drawRect)
+    {
+        QPoint temp=mapToScene(event->pos()).toPoint();
+        double x=temp.x();
+        double y=temp.y();
+        if(!x)
+            x=x/scaleNum;
+        if(!y)
+            y=y/scaleNum;
+
+        if(x<0)
+            x=0;
+        else if(x>scene()->width())
+            x=scene()->width();
+
+        if(y<0)
+            y=0;
+        else if(y>scene()->height())
+            y=scene()->height();
+
+        if(rect)
+        {
+            rect->setRect(begin.x(),begin.y(),x-begin.x(),y-begin.y());
+        }
+        else
+        {
+            rect=new QGraphicsRectItem(begin.x(),begin.y(),x-begin.x(),y-begin.y());
+            rect->setPen({Qt::black,2});
+            scene()->addItem(rect);
+        }
+        end.setX(x);
+        end.setY(y);
+    }
+    else
+    {
+        QGraphicsView::mouseMoveEvent(event);
+    }
+
+}
+void G_View::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(!move)
+        return;
+    move=false;
+    QGraphicsView::mouseReleaseEvent(event);
 }
 
 

@@ -135,3 +135,21 @@ void Image::fill(cv::Point p,cv::Vec3i color)
         cv::FLOODFILL_FIXED_RANGE);
     temp.copyTo(out);
 }
+
+void Image::cut(cv::Rect rect)
+{
+    cv::Mat input=getTarget();
+    cv::Mat result;
+    cv::Mat bgM,fgM;
+    cv::grabCut(
+        input,
+        result,
+        rect,
+        bgM,fgM,
+        5,
+        cv::GC_INIT_WITH_RECT);
+    cv::compare(result,cv::GC_PR_FGD,result,cv::CMP_EQ);
+    cv::Mat foreground(input.size(),CV_8UC3,cv::Scalar(255,255,255));
+    input.copyTo(foreground, result);
+    foreground.copyTo(out);
+}

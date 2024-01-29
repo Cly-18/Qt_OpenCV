@@ -32,6 +32,8 @@ public:
     void thresh(cv::Vec3i,int);
 
     void fill(cv::Point,cv::Vec3i);
+
+    void cut(cv::Rect);
 };
 
 #endif // IMAGE_H

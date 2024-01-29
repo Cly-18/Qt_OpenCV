@@ -70,6 +70,8 @@ void MainWindow::setToolEnable(bool t)
     ui->h_y->setEnabled(t);
     ui->in_thresh->setEnabled(t);
     ui->b_thresh->setEnabled(t);
+    ui->b_fill->setEnabled(t);
+    ui->b_rect_check->setEnabled(t);
 }
 
 //刷新控件状态  显示图像
@@ -184,9 +186,37 @@ void MainWindow::on_b_fill_clicked()
     int r,g,b;
     color.getRgb(&r,&g,&b);
     int x,y;
-    x=ui->gView->getClick().x();
-    y=ui->gView->getClick().y();
+    x=ui->gView->getBegin().x();
+    y=ui->gView->getBegin().y();
     img.fill({x,y},{b,g,r});
+    flashDispaly();
+}
+
+
+void MainWindow::on_b_rect_check_clicked(bool checked)
+{
+    if(checked)
+    {
+        ui->gView->setDrawRect(true);
+        ui->b_rect_check->setText("选择完成");
+    }
+    else
+    {
+        ui->gView->setDrawRect(false);
+        ui->b_rect_check->setText("选择区域");
+    }
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    auto r=ui->gView->getRect();
+    if(r.isEmpty())
+        return;
+    this->setEnabled(false);
+    std::thread t(&Image::cut,&img,cv::Rect({r.x(),r.y(),r.width(),r.height()}));
+    t.join();
+    this->setEnabled(true);
     flashDispaly();
 }
 

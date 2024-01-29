@@ -7,6 +7,7 @@
 #include <QColorDialog>
 
 #include <iostream>
+#include <thread>
 
 #include "image.h"
 
@@ -41,6 +42,10 @@ private slots:
     void on_b_fill_clicked();
 
     void setPoint(int x,int y);
+
+    void on_b_rect_check_clicked(bool checked);
+
+    void on_pushButton_clicked();
 
 protected:
 
