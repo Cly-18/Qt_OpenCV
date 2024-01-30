@@ -117,7 +117,10 @@ void Image::thresh(cv::Vec3i color,int distance)
     cv::absdiff(getTarget(),cv::Scalar(color),out);
     std::vector<cv::Mat> outs;
     cv::split(out,outs);
-    out=outs[0]+outs[1]+outs[2];
+    if(outs.size()>1)
+        out=outs[0]+outs[1]+outs[2];
+    else
+        out=outs[0];
     cv::threshold(out,out,distance,255,cv::THRESH_BINARY);
 }
 
@@ -152,4 +155,25 @@ void Image::cut(cv::Rect rect)
     cv::Mat foreground(input.size(),CV_8UC3,cv::Scalar(255,255,255));
     input.copyTo(foreground, result);
     foreground.copyTo(out);
+}
+
+void Image::skinColor()
+{
+    //160 10 25 166
+    cv::Mat hsv;
+    cv::cvtColor(getTarget(),hsv,cv::COLOR_BGR2HSV);
+    std::vector<cv::Mat> channels;
+    cv::split(hsv,channels);
+    cv::Mat mask1;
+    cv::threshold(channels[0],mask1,10,255,cv::THRESH_BINARY_INV);
+    cv::Mat mask2;
+    cv::threshold(channels[0],mask2,160,255,cv::THRESH_BINARY);
+    cv::Mat hueMask;
+    hueMask = mask1 | mask2;
+    cv::Mat satMask;
+    cv::inRange(channels[1], 25, 166, satMask);
+    cv::Mat mask = hueMask & satMask;
+    cv::Mat detected(getTarget().size(), CV_8UC3, cv::Scalar(0, 0, 0));
+    getTarget().copyTo(detected,mask);
+    detected.copyTo(out);
 }

@@ -235,13 +235,20 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="b_cut">
              <property name="text">
               <string>前景提取</string>
              </property>
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item row="7" column="0" colspan="2">
+         <widget class="QPushButton" name="b_skin">
+          <property name="text">
+           <string>皮肤检测</string>
+          </property>
          </widget>
         </item>
        </layout>

@@ -45,7 +45,9 @@ private slots:
 
     void on_b_rect_check_clicked(bool checked);
 
-    void on_pushButton_clicked();
+    void on_b_cut_clicked();
+
+    void on_b_skin_clicked();
 
 protected:
 

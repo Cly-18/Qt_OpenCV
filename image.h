@@ -4,6 +4,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <math.h>
+#include <iostream>
 
 class Image
 {
@@ -34,6 +35,8 @@ public:
     void fill(cv::Point,cv::Vec3i);
 
     void cut(cv::Rect);
+
+    void skinColor();
 };
 
 #endif // IMAGE_H

@@ -72,6 +72,8 @@ void MainWindow::setToolEnable(bool t)
     ui->b_thresh->setEnabled(t);
     ui->b_fill->setEnabled(t);
     ui->b_rect_check->setEnabled(t);
+    ui->b_cut->setEnabled(t);
+    ui->b_skin->setEnabled(t);
 }
 
 //刷新控件状态  显示图像
@@ -199,16 +201,17 @@ void MainWindow::on_b_rect_check_clicked(bool checked)
     {
         ui->gView->setDrawRect(true);
         ui->b_rect_check->setText("选择完成");
+        ui->b_cut->setEnabled(false);
     }
     else
     {
         ui->gView->setDrawRect(false);
         ui->b_rect_check->setText("选择区域");
+        ui->b_cut->setEnabled(true);
     }
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_b_cut_clicked()
 {
     auto r=ui->gView->getRect();
     if(r.isEmpty())
@@ -217,6 +220,13 @@ void MainWindow::on_pushButton_clicked()
     std::thread t(&Image::cut,&img,cv::Rect({r.x(),r.y(),r.width(),r.height()}));
     t.join();
     this->setEnabled(true);
+    flashDispaly();
+}
+
+
+void MainWindow::on_b_skin_clicked()
+{
+    img.skinColor();
     flashDispaly();
 }
 
