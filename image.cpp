@@ -177,3 +177,29 @@ void Image::skinColor()
     getTarget().copyTo(detected,mask);
     detected.copyTo(out);
 }
+
+const cv::Mat* Image::getHistogram(int c)
+{
+    auto target=getTarget();
+
+    if(target.channels()<=c)
+        return nullptr;
+
+    float hranges[2]={0.0,256.0};
+    int histSize[]={256};
+    const float* ranges[1]={hranges};
+    int channels[]={c};
+
+    cv::Mat* ret=new cv::Mat;
+    cv::calcHist(
+        &target,
+        1,
+        channels,
+        cv::Mat(),
+        *ret,
+        1,
+        histSize,
+        ranges);
+
+    return ret;
+}

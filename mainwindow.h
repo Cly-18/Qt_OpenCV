@@ -10,6 +10,7 @@
 #include <thread>
 
 #include "image.h"
+#include "histogram.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,6 +49,8 @@ private slots:
     void on_b_cut_clicked();
 
     void on_b_skin_clicked();
+
+    void on_b_showHistogram_clicked();
 
 protected:
 

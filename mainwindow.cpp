@@ -62,7 +62,6 @@ QImage::Format MainWindow::getType(const int type)
 void MainWindow::setToolEnable(bool t)
 {
     ui->b_gray->setEnabled(t);
-    ui->imgSlider->setEnabled(t);
     ui->in_colorReduce->setEnabled(t);
     ui->b_colorReduce->setEnabled(t);
     ui->b_sharpen->setEnabled(t);
@@ -74,6 +73,7 @@ void MainWindow::setToolEnable(bool t)
     ui->b_rect_check->setEnabled(t);
     ui->b_cut->setEnabled(t);
     ui->b_skin->setEnabled(t);
+    ui->b_showHistogram->setEnabled(t);
 }
 
 //刷新控件状态  显示图像
@@ -228,5 +228,16 @@ void MainWindow::on_b_skin_clicked()
 {
     img.skinColor();
     flashDispaly();
+}
+
+
+void MainWindow::on_b_showHistogram_clicked()
+{
+    auto ret=(cv::Mat*)img.getHistogram(ui->in_his->value());
+    if(!ret)
+        return ;
+
+    Histogram* hPage=new Histogram(QString("直方图 %1").arg(ui->in_his->value(),0),ret);
+    hPage->show();
 }
 

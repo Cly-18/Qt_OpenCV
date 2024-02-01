@@ -37,6 +37,8 @@ public:
     void cut(cv::Rect);
 
     void skinColor();
+
+    const cv::Mat* getHistogram(int);
 };
 
 #endif // IMAGE_H
