@@ -74,6 +74,7 @@ void MainWindow::setToolEnable(bool t)
     ui->b_cut->setEnabled(t);
     ui->b_skin->setEnabled(t);
     ui->b_showHistogram->setEnabled(t);
+    ui->in_his->setEnabled(t);
 }
 
 //刷新控件状态  显示图像
