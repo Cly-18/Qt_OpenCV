@@ -29,6 +29,7 @@ public slots:
     void openFile();
     void combineCheck(bool checked);
     void imgreset();
+    void imgSave();
     void imgwave();
 
 private slots:

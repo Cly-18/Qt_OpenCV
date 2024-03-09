@@ -49,6 +49,11 @@ void Image::reset()
     img.copyTo(out);
 }
 
+void Image::imgsave(std::string path)
+{
+    cv::imwrite(path+"/output.jpg",out);
+}
+
 void Image::gray()
 {
     if(getTarget().type()==CV_8UC3)

@@ -22,6 +22,8 @@ void MainWindow::createConnect()
     connect(ui->combine,SIGNAL(toggled(bool)),this,SLOT(combineCheck(bool)));
     //reset
     connect(ui->imgreset,SIGNAL(triggered()),this,SLOT(imgreset()));
+    //另存为
+    connect(ui->imgsave,SIGNAL(triggered()),this,SLOT(imgSave()));
     //wave
     connect(ui->h_x,SIGNAL(valueChanged(int)),this,SLOT(imgwave()));
     connect(ui->h_y,SIGNAL(valueChanged(int)),this,SLOT(imgwave()));
@@ -125,6 +127,15 @@ void MainWindow::imgreset()
 {
     img.reset();
     flashDispaly();
+}
+//另存为
+void MainWindow::imgSave()
+{
+    QString path=QFileDialog::getExistingDirectory();
+    if(!path.isEmpty())
+    {
+        img.imgsave(path.toLocal8Bit().data());
+    }
 }
 
 //灰度按钮事件

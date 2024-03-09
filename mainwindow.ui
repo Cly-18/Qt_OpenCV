@@ -269,7 +269,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>17</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -279,6 +279,7 @@
     <addaction name="openfile"/>
     <addaction name="combine"/>
     <addaction name="imgreset"/>
+    <addaction name="imgsave"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -302,6 +303,11 @@
   <action name="imgreset">
    <property name="text">
     <string>重置</string>
+   </property>
+  </action>
+  <action name="imgsave">
+   <property name="text">
+    <string>另存为</string>
    </property>
   </action>
  </widget>

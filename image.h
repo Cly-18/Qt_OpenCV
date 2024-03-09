@@ -22,6 +22,8 @@ public:
     const cv::Mat* getOut();
     void reset();
 
+    void imgsave(std::string path);
+
     void gray();
 
     void colorReduce(int div=4);
