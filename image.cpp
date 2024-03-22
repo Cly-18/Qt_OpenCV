@@ -183,6 +183,16 @@ void Image::skinColor()
     detected.copyTo(out);
 }
 
+void Image::canny(int low,int high)
+{
+    auto target=getTarget();
+    cv::Mat result;
+    cv::Canny(target,result,low,high);
+    result.copyTo(out);
+}
+
+
+
 const cv::Mat* Image::getHistogram(int c)
 {
     auto target=getTarget();

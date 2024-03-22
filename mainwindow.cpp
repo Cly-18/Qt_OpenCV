@@ -7,11 +7,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     imgOpen=false;
+    videoOpen=false;
     lastPath="D:/Other/img";
     sence=new QGraphicsScene;
     createConnect();
     setToolEnable(false);
     flashDispaly();
+
+
+    ui->play_video->setEnabled(videoOpen);
 }
 //信号绑定
 void MainWindow::createConnect()
@@ -77,6 +81,9 @@ void MainWindow::setToolEnable(bool t)
     ui->b_skin->setEnabled(t);
     ui->b_showHistogram->setEnabled(t);
     ui->in_his->setEnabled(t);
+    ui->canny->setEnabled(t);
+    ui->canny_low->setEnabled(t);
+    ui->canny_high->setEnabled(t);
 }
 
 //刷新控件状态  显示图像
@@ -251,5 +258,77 @@ void MainWindow::on_b_showHistogram_clicked()
 
     Histogram* hPage=new Histogram(QString("直方图 %1").arg(ui->in_his->value(),0),ret);
     hPage->show();
+}
+
+
+void MainWindow::on_canny_clicked()
+{
+    img.canny(ui->canny_low->value(),ui->canny_high->value());
+    flashDispaly();
+}
+
+
+void MainWindow::on_open_video_clicked()
+{
+    QString path=QFileDialog::getOpenFileName(
+        this,
+        "选择文件",
+        lastPath,
+        "*.mp4");
+
+    if(!path.isEmpty())
+    {
+        videoPath=path;
+        videoOpen=true;
+        ui->play_video->setEnabled(videoOpen);
+    }
+}
+
+
+void MainWindow::on_play_video_clicked()
+{
+    if(!videoOpen)
+        return ;
+
+    cv::VideoCapture cap;
+    qDebug()<<videoPath;
+    cap.open(videoPath.toLocal8Bit().data());
+    cv::namedWindow("input");
+    cv::namedWindow("output");
+    double delay=cap.get(cv::CAP_PROP_FPS);
+
+    cv::Mat frame;
+    cv::Mat v_out;
+    while(cap.read(frame))
+    {
+        qDebug()<<"111\n";
+        cv::imshow("input",frame);
+
+        switch (ui->video_fun->currentIndex()) {
+        case 0:
+            cv::Canny(frame,v_out,230,230);
+            cv::threshold(v_out,v_out,128,255,cv::THRESH_BINARY_INV);
+            break;
+        case 1:
+            frame.copyTo(v_out);
+            for(int i=0;i<v_out.rows;i++)
+            {
+                unsigned char * data=v_out.ptr<unsigned char>(i);
+                for(int j=0;j<v_out.cols*v_out.channels();j++)
+                {
+                    *data &=(unsigned char)(0xFF<<6);
+                    *data++ += 0x01<<(6-1);
+                }
+            }
+            break;
+        default:
+            break;
+        }
+        cv::imshow("output",v_out);
+        if(cv::waitKey(delay)>0)
+            break;
+    }
+
+
 }
 

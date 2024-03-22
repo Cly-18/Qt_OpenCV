@@ -3,8 +3,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include <math.h>
-#include <iostream>
+
 
 class Image
 {
@@ -39,6 +38,8 @@ public:
     void cut(cv::Rect);
 
     void skinColor();
+
+    void canny(int,int);
 
     const cv::Mat* getHistogram(int);
 };

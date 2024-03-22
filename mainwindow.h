@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <thread>
+#include <QThread>
 
 #include "image.h"
 #include "histogram.h"
@@ -53,6 +54,12 @@ private slots:
 
     void on_b_showHistogram_clicked();
 
+    void on_canny_clicked();
+
+    void on_open_video_clicked();
+
+    void on_play_video_clicked();
+
 protected:
 
     void resizeEvent(QResizeEvent *event) override;
@@ -64,6 +71,9 @@ private:
     Image img;
     bool imgOpen;
     QString lastPath;
+
+    bool videoOpen;
+    QString videoPath;
 
     QImage::Format getType(const int type);
     void setToolEnable(bool);
